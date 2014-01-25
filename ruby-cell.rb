@@ -12,36 +12,47 @@
 class CellGame
 
   def initialize
-    @cell_grid = [[".", "o", "o", ".", "o"],
-                           ["o", "o", "o", "o", "."],
-                           ["o", ".", ".", ".", "o"],
-                           [".", "o", "o", "o", "."],
-                           [".", "o", ".", "o", "o"]]
+
+    puts "How big do you want this game?"
+    size = gets.chomp.to_i
+
+    #Creates display and dump grids
+    @cell_grid = Array.new(size, "") { Array.new(size, "") }
+    @cell_grid_dump = Array.new(size, "") { Array.new(size, "") }
 
     #Counts how many ticks the game has played
     @tick_count = 0
 
     #Goes to next method
+    fill_grid_with_random_cells
+  end
+
+  def fill_grid_with_random_cells
+    @cell_grid.each do |row|
+      row.map! do |cell|
+        roll = rand(100)
+          if roll > 51
+            "•"
+          else
+            " "
+          end
+      end
+    end
+
     check_for_any_alive_cells
   end
 
   def check_for_any_alive_cells
-    alive_cells = 0
 
     # Each loop that checks each cell for alive cells
     @cell_grid.each do |row|
       row.each do |cell|
-        if cell.include?("o")
-          alive_cells += 1
+        if cell.include?("•")
+          check_cells_for_future_state
+        else
+          end_game_print_result
         end
       end
-    end
-
-    if alive_cells >= 1
-      puts "Found #{alive_cells} alive cells in grid, going to the next method!"
-      check_cells_for_future_state
-    else
-      end_game_print_result
     end
 
   end
@@ -57,19 +68,22 @@ print_cell_grid_and_counter
 end
 
 
+
 def print_cell_grid_and_counter
   
   system"clear"
   @cell_grid.each do |row|
     row.each do |cell|
-      print cell
-      print " "
+      print cell + " "
     end
     print "\n"  
   end
 
   @tick_count += 1
+  print "\n"
   print "Days passed: #{@tick_count}"
+  sleep(0.5)
+  check_for_any_alive_cells
 end
 
 
