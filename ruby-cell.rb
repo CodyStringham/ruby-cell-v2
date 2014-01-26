@@ -65,65 +65,46 @@ def check_cells_for_future_state
         end
 
 
-      live_neighbors = 0
+      @live_neighbors = 0
 
-      #def does_this_include_alive(cell)
-       # if cell.include?("•")
-           #live_neighbors += 1 
-        #end
-      #end
+      def does_this_include_alive(cell)
+        if cell.include?("•")
+          @live_neighbors += 1 
+        end
+      end
       
       top_left_cell = @cell_grid[(row_index - 1)][(cell_index - 1)] 
-        #does_this_include_alive(top_left_cell)
-        if top_left_cell.include?("•")
-          live_neighbors += 1
-        end
+        does_this_include_alive(top_left_cell)
+    
 
       top_cell = @cell_grid[(row_index - 1)][(cell_index)]
-        #does_this_include_alive(top_cell)
-        if top_cell.include?("•")
-          live_neighbors += 1
-        end
+        does_this_include_alive(top_cell)
 
       top_right_cell = @cell_grid[(row_index - 1)][(add_cell_shift)]
-         #does_this_include_alive(top_right_cell)
-         if top_right_cell.include?("•")
-          live_neighbors += 1
-        end
+         does_this_include_alive(top_right_cell)
+      
 
       right_cell = @cell_grid[(row_index)][(add_cell_shift)]
-        #does_this_include_alive(right_cell)
-        if right_cell.include?("•")
-          live_neighbors += 1
-        end
+        does_this_include_alive(right_cell)
+ 
 
       bottom_right_cell = @cell_grid[(add_row_shift)][(add_cell_shift)]
-        #does_this_include_alive(bottom_right_cell)
-        if bottom_right_cell.include?("•")
-          live_neighbors += 1
-        end
+        does_this_include_alive(bottom_right_cell)
+        
 
       bottom_cell = @cell_grid[(add_row_shift)][(cell_index)]
-        #does_this_include_alive(bottom_cell)
-        if bottom_cell.include?("•")
-          live_neighbors += 1
-        end
+        does_this_include_alive(bottom_cell)
+  
 
       bottom_left_cell = @cell_grid[(add_row_shift)][(cell_index - 1)] 
-        #does_this_include_alive(bottom_left_cell)
-        if bottom_left_cell.include?("•")
-          live_neighbors += 1
-        end
+        does_this_include_alive(bottom_left_cell)
+       
 
       left_cell = @cell_grid[(row_index)][(cell_index - 1)] 
-        #does_this_include_alive(left_cell)
-        if left_cell.include?("•")
-          live_neighbors += 1
-        end
+        does_this_include_alive(left_cell)
 
 
-
-      if live_neighbors == 2 || live_neighbors == 3
+      if @live_neighbors == 2 || @live_neighbors == 3
         @grid_storage[(row_index)][(cell_index)] = "•"
 
       else
