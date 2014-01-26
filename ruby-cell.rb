@@ -14,11 +14,11 @@ class CellGame
   def initialize
 
     puts "How big do you want this game?"
-    size = gets.chomp.to_i
+    @size = gets.chomp.to_i
 
     #Creates display and dump grids
-    @cell_grid = Array.new(size, "") { Array.new(size, "") }
-    @cell_grid_dump = Array.new(size, "") { Array.new(size, "") }
+    @cell_grid = Array.new(@size, "") { Array.new(@size, "") }
+    @cell_grid_dump = Array.new(@size, "") { Array.new(@size, "") }
 
     #Counts how many ticks the game has played
     @tick_count = 0
@@ -58,9 +58,72 @@ class CellGame
   end
 
 def check_cells_for_future_state
+
   @cell_grid.each_with_index do |row, row_index|
     row.each_with_index do |cell, cell_index|
-      puts ["Checking cell: [#{row_index}][#{cell_index}] "]
+      live_neighbors = 0
+
+      add_row_shift = (row_index + 1)
+      if add_row_shift == @size
+        add_row_shift = 0
+      end
+
+      add_cell_shift = (cell_index + 1)
+      if add_cell_shift == @size
+        add_cell_shift = 0
+      end
+      
+      top_left_cell = @cell_grid[(row_index - 1)][(cell_index - 1)] 
+      if top_left_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      top_cell = @cell_grid[(row_index - 1)][(cell_index)]
+      if top_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      top_right_cell = @cell_grid[(row_index - 1)][(add_cell_shift)]
+      if top_right_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      right_cell = @cell_grid[(row_index)][(add_cell_shift)]
+      if right_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      bottom_right_cell = @cell_grid[(add_row_shift)][(add_cell_shift)]
+      if bottom_right_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      bottom_cell = @cell_grid[(add_row_shift)][(cell_index)]
+      if bottom_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      bottom_left_cell = @cell_grid[(add_row_shift)][(cell_index - 1)] 
+      if bottom_left_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      left_cell = @cell_grid[(row_index)][(cell_index - 1)] 
+      if left_cell.include?("•")
+        live_neighbors += 1
+      end
+
+      print "[#{row_index}], [#{cell_index}]: #{live_neighbors} live neighbors"
+      print "\n"
+
+      if live_neighbors == 2
+        #alive cell
+      elsif live_neighbors == 3
+        #alive cell
+      else
+        #kill cell
+      end
+
     end
   end
 
