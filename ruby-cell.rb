@@ -11,57 +11,57 @@
 
 class CellGame
 
-  def initialize
+def initialize
 
-    puts "How big do you want this game?"
-    @size = gets.chomp.to_i
+  puts "How big do you want this game?"
+  @size = gets.chomp.to_i
 
-    #Creates display and dump grids
-    @cell_grid = Array.new(@size, "") { Array.new(@size, "") }
-    @cell_grid_dump = Array.new(@size, "") { Array.new(@size, "") }
+  #Creates display and dump grids
+  @cell_grid = Array.new(@size, "") { Array.new(@size, "") }
+  @cell_grid_dump = Array.new(@size, "") { Array.new(@size, "") }
 
-    #Counts how many ticks the game has played
-    @tick_count = 0
+  #Counts how many ticks the game has played
+  @tick_count = 0
 
-    #Goes to next method
-    fill_grid_with_random_cells
-  end
+  #Goes to next method
+  fill_grid_with_random_cells
+end
 
-  def fill_grid_with_random_cells
-    @cell_grid.each do |row|
-      row.map! do |cell|
-        roll = rand(100)
-          if roll > 51
-            "•"
-          else
-            " "
-          end
-      end
-    end
-
-    check_for_any_alive_cells
-  end
-
-  def check_for_any_alive_cells
-
-    # Each loop that checks each cell for alive cells
-    @cell_grid.each do |row|
-      row.each do |cell|
-        if cell.include?("•")
-          check_cells_for_future_state
+def fill_grid_with_random_cells
+  @cell_grid.each do |row|
+    row.map! do |cell|
+      roll = rand(100)
+        if roll > 51
+          "•"
         else
-          end_game_print_result
+          " "
         end
+    end
+  end
+
+  check_for_any_alive_cells
+end
+
+def check_for_any_alive_cells
+
+  # Each loop that checks each cell for alive cells
+  @cell_grid.each do |row|
+    row.each do |cell|
+      if cell.include?("•")
+        check_cells_for_future_state
+      else
+        end_game_print_result
       end
     end
-
   end
+end
+
 
 def check_cells_for_future_state
 
   @cell_grid.each_with_index do |row, row_index|
     row.each_with_index do |cell, cell_index|
-      live_neighbors = 0
+      @live_neighbors = 0
 
       add_row_shift = (row_index + 1)
       if add_row_shift == @size
@@ -72,53 +72,50 @@ def check_cells_for_future_state
       if add_cell_shift == @size
         add_cell_shift = 0
       end
+
+      def does_this_include_alive(cell)
+        if cell.include?("•")
+          @live_neighbors +=1
+        end
+      end
       
       top_left_cell = @cell_grid[(row_index - 1)][(cell_index - 1)] 
-      if top_left_cell.include?("•")
-        live_neighbors += 1
-      end
+        does_this_include_alive(top_left_cell)
 
       top_cell = @cell_grid[(row_index - 1)][(cell_index)]
-      if top_cell.include?("•")
-        live_neighbors += 1
-      end
+        does_this_include_alive(top_cell)
+
 
       top_right_cell = @cell_grid[(row_index - 1)][(add_cell_shift)]
-      if top_right_cell.include?("•")
-        live_neighbors += 1
-      end
+         does_this_include_alive(top_right_cell)
+
 
       right_cell = @cell_grid[(row_index)][(add_cell_shift)]
-      if right_cell.include?("•")
-        live_neighbors += 1
-      end
+        does_this_include_alive(right_cell)
+
 
       bottom_right_cell = @cell_grid[(add_row_shift)][(add_cell_shift)]
-      if bottom_right_cell.include?("•")
-        live_neighbors += 1
-      end
+        does_this_include_alive(bottom_right_cell)
+
 
       bottom_cell = @cell_grid[(add_row_shift)][(cell_index)]
-      if bottom_cell.include?("•")
-        live_neighbors += 1
-      end
+        does_this_include_alive(bottom_cell)
+
 
       bottom_left_cell = @cell_grid[(add_row_shift)][(cell_index - 1)] 
-      if bottom_left_cell.include?("•")
-        live_neighbors += 1
-      end
+        does_this_include_alive(bottom_left_cell)
+
 
       left_cell = @cell_grid[(row_index)][(cell_index - 1)] 
-      if left_cell.include?("•")
-        live_neighbors += 1
-      end
+        does_this_include_alive(left_cell)
 
-      print "[#{row_index}], [#{cell_index}]: #{live_neighbors} live neighbors"
+
+      print "[#{row_index}], [#{cell_index}]: #{@live_neighbors} live neighbors"
       print "\n"
 
-      if live_neighbors == 2
+      if @live_neighbors == 2
         #alive cell
-      elsif live_neighbors == 3
+      elsif @live_neighbors == 3
         #alive cell
       else
         #kill cell
@@ -127,7 +124,7 @@ def check_cells_for_future_state
     end
   end
 
-print_cell_grid_and_counter
+  print_cell_grid_and_counter
 end
 
 
