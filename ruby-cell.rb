@@ -3,9 +3,9 @@ class CellGame
 def initialize
 
   puts "How tall do you want the grid?"
-  @tall = gets.chomp.to_i
+    @tall = gets.chomp.to_i
   puts "How wide do you want the grid?"
-  @wide = gets.chomp.to_i
+    @wide = gets.chomp.to_i
   @days_passed = 0
   @cell_grid = Array.new(@tall) { Array.new(@wide) }
   @grid_storage = Array.new(@tall) { Array.new(@wide) }
@@ -13,10 +13,11 @@ def initialize
   fill_grid_with_random_cells
 end
 
+
 def fill_grid_with_random_cells
   @cell_grid.each do |row|
     row.map! do |cell|
-      roll = rand(20)
+      roll = rand(50)
         if roll == 2
           "○"
         else
@@ -28,9 +29,10 @@ def fill_grid_with_random_cells
   check_for_any_alive_cells
 end
 
-def check_for_any_alive_cells
-  contains_alive = 0
 
+def check_for_any_alive_cells
+  
+  contains_alive = 0
   @cell_grid.each do |row|
     row.each do |cell|
       if cell.include?("○")
@@ -42,7 +44,6 @@ def check_for_any_alive_cells
   if contains_alive >= 1
     check_cells_for_future_state
   else
-    print "No alive cells found"
     end_game_print_result
   end
 
@@ -64,7 +65,6 @@ def check_cells_for_future_state
           add_cell_shift = 0
         end
 
-
       @live_neighbors = 0
 
       def does_this_include_alive(cell)
@@ -75,38 +75,30 @@ def check_cells_for_future_state
       
       top_left_cell = @cell_grid[(row_index - 1)][(cell_index - 1)] 
         does_this_include_alive(top_left_cell)
-    
 
       top_cell = @cell_grid[(row_index - 1)][(cell_index)]
         does_this_include_alive(top_cell)
 
       top_right_cell = @cell_grid[(row_index - 1)][(add_cell_shift)]
          does_this_include_alive(top_right_cell)
-      
 
       right_cell = @cell_grid[(row_index)][(add_cell_shift)]
         does_this_include_alive(right_cell)
- 
 
       bottom_right_cell = @cell_grid[(add_row_shift)][(add_cell_shift)]
-        does_this_include_alive(bottom_right_cell)
-        
+        does_this_include_alive(bottom_right_cell)   
 
       bottom_cell = @cell_grid[(add_row_shift)][(cell_index)]
         does_this_include_alive(bottom_cell)
-  
 
       bottom_left_cell = @cell_grid[(add_row_shift)][(cell_index - 1)] 
         does_this_include_alive(bottom_left_cell)
-       
 
       left_cell = @cell_grid[(row_index)][(cell_index - 1)] 
         does_this_include_alive(left_cell)
 
-
       if @live_neighbors == 2 || @live_neighbors == 3
         @grid_storage[(row_index)][(cell_index)] = "○"
-
       else
         @grid_storage[(row_index)][(cell_index)] = " "
       end
@@ -116,6 +108,7 @@ def check_cells_for_future_state
   
   update_cell_grid
 end
+
 
 def update_cell_grid
   @cell_grid = @grid_storage.clone
@@ -147,7 +140,7 @@ end
 
 
 def end_game_print_result
-  print "#{@days_passed} days have passed, end of game."
+  print "Results: #{@days_passed} days have passed, end of game."
 end
 
 
