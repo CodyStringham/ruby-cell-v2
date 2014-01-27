@@ -18,7 +18,7 @@ def fill_grid_with_random_cells
     row.map! do |cell|
       roll = rand(20)
         if roll == 2
-          "•"
+          "○"
         else
           " "
         end
@@ -33,7 +33,7 @@ def check_for_any_alive_cells
 
   @cell_grid.each do |row|
     row.each do |cell|
-      if cell.include?("•")
+      if cell.include?("○")
         contains_alive += 1
       end
     end
@@ -68,7 +68,7 @@ def check_cells_for_future_state
       @live_neighbors = 0
 
       def does_this_include_alive(cell)
-        if cell.include?("•")
+        if cell.include?("○")
           @live_neighbors += 1 
         end
       end
@@ -105,7 +105,7 @@ def check_cells_for_future_state
 
 
       if @live_neighbors == 2 || @live_neighbors == 3
-        @grid_storage[(row_index)][(cell_index)] = "•"
+        @grid_storage[(row_index)][(cell_index)] = "○"
 
       else
         @grid_storage[(row_index)][(cell_index)] = " "
@@ -141,7 +141,7 @@ def print_cell_grid_and_counter
 
   print "\n"
   print "Days passed: #{@days_passed}"
-  sleep(0.15)
+  sleep(0.10)
   check_for_any_alive_cells
 end
 
