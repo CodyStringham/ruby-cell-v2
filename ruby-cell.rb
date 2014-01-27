@@ -55,12 +55,12 @@ def check_cells_for_future_state
     row.each_with_index do |cell, cell_index|
       
       add_row_shift = (row_index + 1)
-        if add_row_shift == @tall || add_row_shift == @wide
+        if add_row_shift == @tall
           add_row_shift = 0
         end
 
       add_cell_shift = (cell_index + 1)
-        if add_cell_shift == @tall || add_cell_shift == @wide
+        if add_cell_shift == @wide
           add_cell_shift = 0
         end
 
