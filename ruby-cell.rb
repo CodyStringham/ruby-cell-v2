@@ -19,7 +19,7 @@ def fill_grid_with_random_cells
     row.map! do |cell|
       roll = rand(50)
         if roll == 2
-          "○"
+          "💩"
         else
           " "
         end
@@ -35,7 +35,7 @@ def check_for_any_alive_cells
   contains_alive = 0
   @cell_grid.each do |row|
     row.each do |cell|
-      if cell.include?("○")
+      if cell.include?("💩")
         contains_alive += 1
       end
     end
@@ -48,6 +48,7 @@ def check_for_any_alive_cells
   end
 
 end
+
 
 
 def check_cells_for_future_state
@@ -68,7 +69,7 @@ def check_cells_for_future_state
       @live_neighbors = 0
 
       def does_this_include_alive(cell)
-        if cell.include?("○")
+        if cell.include?("💩")
           @live_neighbors += 1 
         end
       end
@@ -98,7 +99,7 @@ def check_cells_for_future_state
         does_this_include_alive(left_cell)
 
       if @live_neighbors == 2 || @live_neighbors == 3
-        @grid_storage[(row_index)][(cell_index)] = "○"
+        @grid_storage[(row_index)][(cell_index)] = "💩"
       else
         @grid_storage[(row_index)][(cell_index)] = " "
       end
